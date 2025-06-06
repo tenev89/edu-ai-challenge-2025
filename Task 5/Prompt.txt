@@ -1,6 +1,4 @@
-
 The goal of this task is to classify unstructured user feedback and extracting detailed insights.
-
 
 Many services lack effective feedback loop systems. Such systems allow improvement of services / products with suggestions from millions of posts and comments. The main issue with developing such a system is creating an accurate feedback sorting mechanism.
  
