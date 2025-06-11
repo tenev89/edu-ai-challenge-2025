@@ -1,0 +1,14 @@
+You're in the middle of QA or development and come across a bug. 
+You wrote down a quick note like: “Logout button doesn’t work on Safari. It just doesn’t respond.”
+
+This kind of informal note is common—but it's not enough for a developer to take action quickly.
+
+Design a prompt that converts informal bug reports like the one provided above into a clear, well-structured bug ticket. 
+
+The output should follow this format:
+1.Title
+2.Description
+3.Steps to Reproduce
+4.Expected vs Actual Behavior
+5.Environment (if known)
+6.Severity or Impact
