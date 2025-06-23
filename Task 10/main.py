@@ -20,7 +20,7 @@ products_json_path = os.path.join(script_dir, 'products.json')
 with open(products_json_path, 'r') as f:
     products_data = json.load(f)
 
-def find_products(category=None, max_price=None, min_rating=None, in_stock=None):
+def find_products(category=None, max_price=None, min_rating=None, in_stock=None, sort_by=None, sort_order='desc', limit: int = None):
     """
     Filters the product list based on the provided criteria.
     """
@@ -34,6 +34,13 @@ def find_products(category=None, max_price=None, min_rating=None, in_stock=None)
         filtered_products = [p for p in filtered_products if p['rating'] >= min_rating]
     if in_stock is not None:
         filtered_products = [p for p in filtered_products if p['in_stock'] == in_stock]
+    
+    if sort_by and sort_by in ['price', 'rating']:
+        reverse = sort_order == 'desc'
+        filtered_products.sort(key=lambda p: p.get(sort_by, 0), reverse=reverse)
+    
+    if limit:
+        filtered_products = filtered_products[:limit]
     
     return json.dumps(filtered_products)
 
@@ -53,7 +60,7 @@ def main():
                     "type": "function",
                     "function": {
                         "name": "find_products",
-                        "description": "Get a list of products based on filters.",
+                        "description": "Get a list of products based on filters. Can also sort the results.",
                         "parameters": {
                             "type": "object",
                             "properties": {
@@ -73,6 +80,20 @@ def main():
                                     "type": "boolean",
                                     "description": "Whether the product is in stock or not.",
                                 },
+                                "sort_by": {
+                                    "type": "string",
+                                    "description": "Field to sort by. e.g. 'price' or 'rating'.",
+                                    "enum": ["price", "rating"]
+                                },
+                                "sort_order": {
+                                    "type": "string",
+                                    "description": "Order to sort by. 'asc' for ascending, 'desc' for descending. Defaults to 'desc'.",
+                                    "enum": ["asc", "desc"]
+                                },
+                                "limit": {
+                                    "type": "integer",
+                                    "description": "Limit the number of results. e.g 1 for the most expensive book"
+                                }
                             },
                             "required": [],
                         },
